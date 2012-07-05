@@ -52,7 +52,7 @@ function do_work(req, res, body){
 	} catch (e){}
 	can_generate = true;
   }else if(request.pathname.match(/^\/scripts\/meme.js$/)){
-	res.set_writeHead(200, {'Content-Type': 'text/javascript'});
+	res.writeHead(200, {'Content-Type': 'text/javascript'});
 	res.end(fs.readFileSync(__dirname+"/meme.js"));
   }else{
 	res.end("Oopsie Daisy! something went wrong!");
@@ -90,4 +90,4 @@ http.createServer(function (req, res) {
   }else{
 	res.end("ummmm... what?");
   }
-}).listen(8889, '127.0.0.1');
+}).listen(8889, 'razerwolf.com');
