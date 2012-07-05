@@ -4,12 +4,7 @@ var fs = require("fs");
 var meme = require("./meme");
 var url = require("url");
 var qs  = require("querystring");
-/*canvas = new Canvas(150,150);
-context = canvas.getContext("2d");
-var top = "Why, hello there!";
-lines = meme.make_text_fit_in_box(context, top, [canvas.width, canvas.height/3], 48);
-meme.draw_caption(context, lines[1], lines[0]);*/
-
+var argparse = require("argparse");
 
 var meme_map = {
 "wonka": "templates/wonka.png",
@@ -75,7 +70,7 @@ function do_work(req, res, body){
 	});
   }
 }
-http.createServer(function (req, res) {
+var server = http.createServer(function (req, res) {
   //var request = url.parse(req.url, true);
   if(req.method == "POST"){
 	var body = "";
@@ -90,4 +85,11 @@ http.createServer(function (req, res) {
   }else{
 	res.end("ummmm... what?");
   }
-}).listen(8889, 'razerwolf.com');
+});
+var parser = new argparse.ArgumentParser({version: 0.5, addHelp: true, description: "Webserver for meme.js"});
+parser.addArgument(["-p","--port"], {"help": "which port to listen on, DEFAULT=8889",
+                                     "defaultValue":8889});
+parser.addArgument(["-a","--address"], {"help": "which address to listen on, DEFAULT=127.0.0.1",
+                                     "defaultValue":"127.0.0.1"});
+args = parser.parseArgs();
+server.listen(args.port, args.address);
